@@ -63,6 +63,12 @@ optional arguments:
 
 This software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. It could even start a nuclear war or kill your kittens. ;)
 
+## Donate
+
+If you want to donate for this project, you can send me some coins to the following address.
+
+**Bitcoin**: 1CCzVGMgoEbd5Zn84QnqjNFRj4PZtAoTrC
+
 ## License
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
