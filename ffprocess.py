@@ -13,13 +13,12 @@ def run_command(command):
     process = subprocess.Popen(command, stdout=subprocess.PIPE)
     while True:
         output = process.stdout.readline()
-        if output == '' and process.poll() is not None:
-            break
         if output:
             print(output.strip())
+        if process.poll() is not None:
+            break
 
-    rc = process.wait()
-    return rc
+    return process.wait()
 
 parser = argparse.ArgumentParser(description='Convert your media library to H264 and AAC.')
 parser.add_argument('--quality', required=False, type=int, default=23, help='crf quality of libx264 (default: 23)')
