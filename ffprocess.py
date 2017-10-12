@@ -36,7 +36,7 @@ def run_command(command):
     return process.wait()
 
 parser = argparse.ArgumentParser(description='Batch convert your media library to H264 and AAC.')
-parser.add_argument('--quality', required=False, type=int, default=23, help='crf quality of libx264 (default: 23)')
+parser.add_argument('--quality', required=False, type=int, default=20, help='crf quality of libx264 (default: 20)')
 parser.add_argument('--preset', required=False, type=str, default='veryslow', help='encoding preset for libx264 (default: veryslow)')
 parser.add_argument('--resolution', required=False, type=int, default=1080, help='maximum resolution in height (default: 1080)')
 parser.add_argument('--rate', required=False, type=int, default=25, help='maximum framerate (default: 25)')
@@ -65,7 +65,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
 
             cmd = ['ffprobe', '-show_format', '-show_streams', '-loglevel', 'quiet', '-print_format', 'json', filepath]
 
-            ffmpegCmd = ['ffmpeg','-y','-i',filepath, '-map', '0']
+            ffmpegCmd = ['ffmpeg', '-y', '-i', filepath]
             convertCmd = []
             reconvert = False
 
@@ -78,10 +78,15 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
 
                 i = 0
                 audioStream = 0
+                videoStream = 0
+                subtitleStream = 0
                 for stream in data['streams']:
                     logging.debug("Found stream of type %s" % stream['codec_type'])
 
-                    if stream['codec_type'] == 'video':
+                    if stream['codec_type'] == 'video' and not videoStream > 0:
+                        ffmpegCmd.append("-map")
+                        ffmpegCmd.append("0:%d" % i)
+
                         convertVideo = False
                         videoConvertCmd = []
 
@@ -139,7 +144,16 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                             convertCmd.append("-c:v")
                             convertCmd.append("copy")
 
+                        videoStream += 1
+
+                    elif stream['codec_type'] == 'video' and videoStream > 0:
+                        logging.info("Found more than one video stream, reconverting...")
+                        reconvert = True
+
                     elif stream['codec_type'] == 'audio':
+                        ffmpegCmd.append("-map")
+                        ffmpegCmd.append("0:%d" % i)
+
                         if stream['channel_layout'] == 'stereo' and not stream['codec_name'] == 'aac':
                             logging.info("Audio codec is not aac, reconverting...")
 
@@ -155,6 +169,19 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                             convertCmd.append("copy")
 
                         audioStream += 1
+
+                    elif stream['codec_type'] == 'subtitle':
+                        ffmpegCmd.append("-map")
+                        ffmpegCmd.append("0:%d" % i)
+
+                        convertCmd.append("-c:s:"+str(audioStream))
+                        convertCmd.append("copy")
+
+                        subtitleStream += 1
+
+                    else:
+                        logging.info("Found data waste of type '%s', reconverting..." % stream['codec_type'])
+                        reconvert = True
 
                     i += 1
 

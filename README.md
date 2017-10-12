@@ -5,12 +5,15 @@
 A small docker container including ffmpeg to batch convert your media library to a defined h264/aac profile.
 
 -> [DockerHub](https://hub.docker.com/r/rootlogin/ffprocess/)
+-> [Quay.io](https://quay.io/repository/rootlogin/ffprocess)
 
 ## Features
 
  * Made for Docker.
  * Converts files only if needed.
  * You can set a maximum framerate and resolution.
+ * Truncates all streams that are not video, audio or subtitles.
+ * Removes not needed additional video streams like embedded images.
  
 ## Dependencies when used standalone
    
@@ -60,6 +63,12 @@ optional arguments:
                         maximum resolution in height (default: 1080)
   --rate RATE           maximum framerate (default: 25)
 ```
+
+## Development
+
+I'm very happy about every filed issue or pull-request.
+
+If you create a pull-request, please compare it against the "develop" branch.
 
 ## Warranty
 
