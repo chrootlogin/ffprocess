@@ -2,6 +2,10 @@
 
 A small docker container including ffmpeg to batch convert your media library to a defined h264/aac profile.
 
+## Dependencies when used standalone
+   
+   * FFMpeg with libfdk_aac and libx264
+
 ## Usage
 
 If you have ffmpeg and python installed on your computer, you can use this script directly, but I recommend to use the docker image, because there are already all needed codecs inside.

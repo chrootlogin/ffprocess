@@ -41,7 +41,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
             cmd = ['ffprobe','-show_format','-show_streams','-loglevel','quiet','-print_format','json']
             cmd.append(filepath)
 
-            ffmpegCmd = ['ffmpeg','-y','-i',filepath]
+            ffmpegCmd = ['ffmpeg','-y','-i',filepath, '-map', '0']
             convertCmd = []
             reconvert = False
 
@@ -55,14 +55,14 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                 i = 0
                 audioStream = 0
                 for stream in data['streams']:
-                    ffmpegCmd.append("-map")
-                    ffmpegCmd.append("0:%d" % i)
+                    # ffmpegCmd.append("-map")
+                    # ffmpegCmd.append("0:%d" % i)
 
                     if stream['codec_type'] == 'video':
                         convertVideo = False
                         videoConvertCmd = []
 
-                        if stream['codec_name'] != 'h264':
+                        if not stream['codec_name'] == 'h264':
                             logging.info("Video codec is not h264, reconverting...")
                             convertVideo = True
 
@@ -101,7 +101,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                             convertCmd.append("-refs")
                             convertCmd.append("4")
                             convertCmd.append("-r")
-                            convertCmd.append(int(args.rate))
+                            convertCmd.append(str(args.rate))
 
                             convertCmd += videoConvertCmd
                             reconvert = True
@@ -111,7 +111,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                             convertCmd.append("copy")
 
                     elif stream['codec_type'] == 'audio':
-                        if stream['channel_layout'] == 'stereo' and stream['codec_name'] != 'aac':
+                        if stream['channel_layout'] == 'stereo' and not stream['codec_name'] == 'aac':
                             logging.info("Audio codec is not aac, reconverting...")
 
                             convertCmd.append("-c:a:"+str(audioStream))
