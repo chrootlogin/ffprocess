@@ -38,8 +38,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
 
             logging.info("Checking file: %s" % filepath)
 
-            cmd = ['ffprobe','-show_format','-show_streams','-loglevel','quiet','-print_format','json']
-            cmd.append(filepath)
+            cmd = ['ffprobe', '-show_format', '-show_streams', '-loglevel', 'quiet', '-print_format', 'json', filepath]
 
             ffmpegCmd = ['ffmpeg','-y','-i',filepath, '-map', '0']
             convertCmd = []
@@ -139,8 +138,8 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
 
                     logging.debug("Running cmd: %s" % cmd)
                     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1) as p:
-                        for line in p.stdout: # b'\n'-separated lines
-                            sys.stdout.buffer.write(line) # pass bytes as is
+                        for line in p.stdout:  # b'\n'-separated lines
+                            sys.stdout.buffer.write(line)  # pass bytes as is
                         exitcode = p.wait()
 
                     if exitcode == 0:
