@@ -65,7 +65,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
 
             cmd = ['ffprobe', '-show_format', '-show_streams', '-loglevel', 'quiet', '-print_format', 'json', filepath]
 
-            ffmpegCmd = ['ffmpeg','-y','-i',filepath, '-map', '0']
+            ffmpegCmd = ['ffmpeg', '-y', '-i', filepath]
             convertCmd = []
             reconvert = False
 
@@ -78,10 +78,21 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
 
                 i = 0
                 audioStream = 0
+                videoStream = 0
+                subtitleStream = 0
                 for stream in data['streams']:
                     logging.debug("Found stream of type %s" % stream['codec_type'])
 
                     if stream['codec_type'] == 'video':
+                        if videoStream > 0:
+                            logging.warning("Only one videostream is supported, continuing...")
+
+                            i += 1
+                            continue
+
+                        ffmpegCmd.append("-map")
+                        ffmpegCmd.append("0:%d" % i)
+
                         convertVideo = False
                         videoConvertCmd = []
 
@@ -139,7 +150,12 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                             convertCmd.append("-c:v")
                             convertCmd.append("copy")
 
+                        videoStream += 1
+
                     elif stream['codec_type'] == 'audio':
+                        ffmpegCmd.append("-map")
+                        ffmpegCmd.append("0:%d" % i)
+
                         if stream['channel_layout'] == 'stereo' and not stream['codec_name'] == 'aac':
                             logging.info("Audio codec is not aac, reconverting...")
 
@@ -155,6 +171,15 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                             convertCmd.append("copy")
 
                         audioStream += 1
+
+                    elif stream['codec_type'] == 'subtitle':
+                        ffmpegCmd.append("-map")
+                        ffmpegCmd.append("0:%d" % i)
+
+                        convertCmd.append("-c:s:"+str(audioStream))
+                        convertCmd.append("copy")
+
+                        subtitleStream += 1
 
                     i += 1
 
