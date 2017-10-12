@@ -83,13 +83,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                 for stream in data['streams']:
                     logging.debug("Found stream of type %s" % stream['codec_type'])
 
-                    if stream['codec_type'] == 'video':
-                        if videoStream > 0:
-                            logging.warning("Only one videostream is supported, continuing...")
-
-                            i += 1
-                            continue
-
+                    if stream['codec_type'] == 'video' and not videoStream > 0:
                         ffmpegCmd.append("-map")
                         ffmpegCmd.append("0:%d" % i)
 
