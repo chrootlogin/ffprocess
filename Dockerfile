@@ -5,7 +5,9 @@ MAINTAINER Simon Erhardt <me+docker@rootlogin.ch>
 ARG VCS_REF
 ARG BUILD_DATE
 
-LABEL org.label-schema.vcs-ref=$VCS_REF \
+LABEL org.label-schema.name="FFProcess" \
+      org.label-schema.description="A small docker container including ffmpeg to batch convert your media library to a defined h264/aac profile." \
+      org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url="https://github.com/chrootLogin/ffprocess"
 
