@@ -72,9 +72,13 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                             logging.info("Video codec is not h264, reconverting...")
                             convertVideo = True
 
-                        frameRate = numexpr.evaluate(stream['avg_frame_rate'])
-                        if frameRate > args.rate:
-                            logging.info("Frame rate is to high, reconverting...")
+                        try:
+                            frameRate = numexpr.evaluate(stream['avg_frame_rate'])
+                            if frameRate > args.rate:
+                                logging.info("Frame rate is to high, reconverting...")
+                                convertVideo = True
+                        except ZeroDivisionError:
+                            logging.warning("Couldn't get framerate, reconverting...")
                             convertVideo = True
 
                         if int(stream['height']) > args.resolution:
