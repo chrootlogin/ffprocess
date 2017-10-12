@@ -127,6 +127,8 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                             convertCmd.append("4")
                             convertCmd.append("-r")
                             convertCmd.append(str(args.rate))
+                            convertCmd.append("-pix_fmt")
+                            convertCmd.append("yuvj444p")
 
                             convertCmd += videoConvertCmd
                             reconvert = True
