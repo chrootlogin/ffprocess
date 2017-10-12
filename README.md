@@ -4,7 +4,7 @@ A small docker container including ffmpeg to batch convert your media library to
 
 ## Dependencies when used standalone
    
-   * FFMpeg with libfdk_aac and libx264
+   * FFMpeg with libfdk_aac, libx264 and any codec that you have in your library
 
 ## Usage
 
