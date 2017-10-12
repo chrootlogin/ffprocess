@@ -40,6 +40,8 @@ optional arguments:
 
 If you have ffmpeg and python installed on your computer, you can use this script directly, but I recommend to use the docker image, because there are already all needed codecs inside.
 
+Install dependencies with `pip install -r requirements.txt`.
+
 ```
 usage: ffprocess.py [-h] [--quality QUALITY] [--preset PRESET]
                     [--resolution RESOLUTION] [--rate RATE]
