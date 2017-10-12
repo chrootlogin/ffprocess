@@ -63,6 +63,12 @@ optional arguments:
   --rate RATE           maximum framerate (default: 25)
 ```
 
+## Development
+
+I'm very happy about every filed issue or pull-request.
+
+If you create a pull-request, please compare it against the "develop" branch.
+
 ## Warranty
 
 This software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. It could even start a nuclear war or kill your kittens. ;)
