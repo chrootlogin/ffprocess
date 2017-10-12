@@ -7,10 +7,21 @@ import json
 import logging
 import argparse
 import re
-import sys
 import numexpr
 
-parser = argparse.ArgumentParser(description='Process your media library.')
+def run_command(command):
+    process = subprocess.Popen(command, stdout=subprocess.PIPE)
+    while True:
+        output = process.stdout.readline()
+        if output == '' and process.poll() is not None:
+            break
+        if output:
+            print(output.strip())
+
+    rc = process.wait()
+    return rc
+
+parser = argparse.ArgumentParser(description='Convert your media library to H264 and AAC.')
 parser.add_argument('--quality', required=False, type=int, default=23, help='crf quality of libx264 (default: 23)')
 parser.add_argument('--preset', required=False, type=str, default='veryslow', help='encoding preset for libx264 (default: veryslow)')
 parser.add_argument('--resolution', required=False, type=int, default=1080, help='maximum resolution in height (default: 1080)')
@@ -24,7 +35,7 @@ consoleHandler.setFormatter(logFormatter)
 logging.getLogger().addHandler(consoleHandler)
 logging.getLogger().setLevel(logging.DEBUG)
 
-regexp = re.compile('.*\.(mp4|avi|mov|mkv)')
+regexp = re.compile('.*\.(mp4|avi|mov|mkv|divx|xvid|flv|webm|m2ts|m1v|m2v|ogm|ogv|wmv)')
 regexpTmp = re.compile('.*\.ffprocess_tmp\.mkv')
 
 for root, dirnames, filenames in os.walk(str(args.folder)):
@@ -54,9 +65,6 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                 i = 0
                 audioStream = 0
                 for stream in data['streams']:
-                    # ffmpegCmd.append("-map")
-                    # ffmpegCmd.append("0:%d" % i)
-
                     if stream['codec_type'] == 'video':
                         convertVideo = False
                         videoConvertCmd = []
@@ -137,15 +145,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                     cmd.append(filepathTmp)
 
                     logging.debug("Running cmd: %s" % cmd)
-                    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-                    while True:
-                        out = process.stdout.read(1)
-                        exitcode = process.poll()
-                        if out == '' and not exitcode == None:
-                            break
-                        if out != '':
-                            sys.stdout.write(out.decode('utf-8'))
-                            sys.stdout.flush()
+                    exitcode = run_command(cmd)
 
                     if exitcode == 0:
                         logging.info("Converting successfully, removing old stuff...")
