@@ -99,7 +99,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                         if int(stream['height']) > args.resolution:
                             logging.info("Video resolution is to big, reconverting...")
 
-                            #Just scaling
+                            # Just scaling
                             videoConvertCmd.append("-vf")
                             videoConvertCmd.append("scale=-1:"+str(args.resolution))
                             videoConvertCmd.append("-sws_flags")
@@ -107,7 +107,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
 
                             convertVideo = True
 
-                        if convertVideo == True:
+                        if convertVideo is True:
                             # reconvert stream
                             convertCmd.append("-c:v")
                             convertCmd.append("libx264")
@@ -156,7 +156,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
 
                     i += 1
 
-                if reconvert == True:
+                if reconvert is True:
                     cmd = ffmpegCmd + convertCmd
 
                     filename, file_extension = os.path.splitext(filepath)
