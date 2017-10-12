@@ -79,6 +79,8 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                 i = 0
                 audioStream = 0
                 for stream in data['streams']:
+                    logging.debug("Found stream of type %s" % stream['codec_type'])
+
                     if stream['codec_type'] == 'video':
                         convertVideo = False
                         videoConvertCmd = []
