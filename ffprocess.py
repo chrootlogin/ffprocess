@@ -137,10 +137,15 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                     cmd.append(filepathTmp)
 
                     logging.debug("Running cmd: %s" % cmd)
-                    with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1) as p:
-                        for line in p.stdout:  # b'\n'-separated lines
-                            sys.stdout.buffer.write(line)  # pass bytes as is
-                        exitcode = p.wait()
+                    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                    while True:
+                        out = process.stdout.read(1)
+                        exitcode = process.poll()
+                        if out == '' and not exitcode == None:
+                            break
+                        if out != '':
+                            sys.stdout.write(out.decode('utf-8'))
+                            sys.stdout.flush()
 
                     if exitcode == 0:
                         logging.info("Converting successfully, removing old stuff...")
