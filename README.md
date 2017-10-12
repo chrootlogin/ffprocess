@@ -25,7 +25,7 @@ usage: ffprocess.py [-h] [--quality QUALITY] [--preset PRESET]
                     [--resolution RESOLUTION] [--rate RATE]
                     folder
 
-Process your media library.
+Batch convert your media library to H264 and AAC.
 
 positional arguments:
   folder                folder to scan
@@ -46,7 +46,7 @@ usage: docker run -v /my/media/folder:/data rootlogin/ffprocess
                     [-h] [--quality QUALITY] [--preset PRESET]
                     [--resolution RESOLUTION] [--rate RATE]
 
-Process your media library.
+Batch convert your media library to H264 and AAC.
 
 optional arguments:
   -h, --help            show this help message and exit
