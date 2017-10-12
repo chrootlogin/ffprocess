@@ -2,9 +2,15 @@
 
 A small docker container including ffmpeg to batch convert your media library to a defined h264/aac profile.
 
+## Features
+
+ * Made for Docker.
+ * Converts files only if needed.
+ * You can set a maximum framerate and resolution.
+ 
 ## Dependencies when used standalone
    
-   * FFMpeg with libfdk_aac, libx264 and any codec that you have in your library
+ * FFMpeg with libfdk_aac, libx264 and any codec that you have in your library
 
 ## Usage
 
