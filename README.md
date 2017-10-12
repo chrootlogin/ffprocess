@@ -11,6 +11,8 @@ A small docker container including ffmpeg to batch convert your media library to
  * Made for Docker.
  * Converts files only if needed.
  * You can set a maximum framerate and resolution.
+ * Truncates all streams that are not video, audio or subtitles.
+ * Removes not needed additional video streams like embedded images.
  
 ## Dependencies when used standalone
    
