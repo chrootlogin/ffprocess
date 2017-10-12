@@ -14,9 +14,29 @@ A small docker container including ffmpeg to batch convert your media library to
  
 ## Dependencies when used standalone
    
- * FFMpeg with libfdk_aac, libx264 and any codec that you have in your library
+ * FFMpeg with libfdk_aac, libx264 and any codec that you have in your library.
 
 ## Usage
+
+**With docker:**
+
+```
+usage: docker run -v /my/media/folder:/data rootlogin/ffprocess
+                    [-h] [--quality QUALITY] [--preset PRESET]
+                    [--resolution RESOLUTION] [--rate RATE]
+
+Batch convert your media library to H264 and AAC.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --quality QUALITY     crf quality of libx264 (default: 23)
+  --preset PRESET       encoding preset for libx264 (default: veryslow)
+  --resolution RESOLUTION
+                        maximum resolution in height (default: 1080)
+  --rate RATE           maximum framerate (default: 25)
+```
+
+**Standalone:**
 
 If you have ffmpeg and python installed on your computer, you can use this script directly, but I recommend to use the docker image, because there are already all needed codecs inside.
 
@@ -39,24 +59,10 @@ optional arguments:
   --rate RATE           maximum framerate (default: 25)
 ```
 
-**With docker:**
-
-```
-usage: docker run -v /my/media/folder:/data rootlogin/ffprocess
-                    [-h] [--quality QUALITY] [--preset PRESET]
-                    [--resolution RESOLUTION] [--rate RATE]
-
-Batch convert your media library to H264 and AAC.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --quality QUALITY     crf quality of libx264 (default: 23)
-  --preset PRESET       encoding preset for libx264 (default: veryslow)
-  --resolution RESOLUTION
-                        maximum resolution in height (default: 1080)
-  --rate RATE           maximum framerate (default: 25)
-```
-
 ## Warranty
 
 This software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. It could even start a nuclear war or kill your kittens. ;)
+
+## License
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
