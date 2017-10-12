@@ -111,7 +111,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                             convertCmd.append("copy")
 
                     elif stream['codec_type'] == 'audio':
-                        if stream['channel_layout'] == 'stereo' and stream['codec_name'] != 'h264':
+                        if stream['channel_layout'] == 'stereo' and stream['codec_name'] != 'aac':
                             logging.info("Audio codec is not aac, reconverting...")
 
                             convertCmd.append("-c:a:"+str(audioStream))
