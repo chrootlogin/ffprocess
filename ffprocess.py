@@ -146,6 +146,10 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
 
                         videoStream += 1
 
+                    elif stream['codec_type'] == 'video' and videoStream > 0:
+                        logging.info("Found more than one video stream, reconverting...")
+                        reconvert = True
+
                     elif stream['codec_type'] == 'audio':
                         ffmpegCmd.append("-map")
                         ffmpegCmd.append("0:%d" % i)
@@ -174,6 +178,10 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                         convertCmd.append("copy")
 
                         subtitleStream += 1
+
+                    else:
+                        logging.info("Found data waste of type '%s', reconverting..." % stream['codec_type'])
+                        reconvert = True
 
                     i += 1
 
