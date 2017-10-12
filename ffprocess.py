@@ -36,7 +36,7 @@ def run_command(command):
     return process.wait()
 
 parser = argparse.ArgumentParser(description='Batch convert your media library to H264 and AAC.')
-parser.add_argument('--quality', required=False, type=int, default=23, help='crf quality of libx264 (default: 23)')
+parser.add_argument('--quality', required=False, type=int, default=20, help='crf quality of libx264 (default: 23)')
 parser.add_argument('--preset', required=False, type=str, default='veryslow', help='encoding preset for libx264 (default: veryslow)')
 parser.add_argument('--resolution', required=False, type=int, default=1080, help='maximum resolution in height (default: 1080)')
 parser.add_argument('--rate', required=False, type=int, default=25, help='maximum framerate (default: 25)')
