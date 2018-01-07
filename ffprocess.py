@@ -93,6 +93,10 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                         if not stream['codec_name'] == 'h264':
                             logging.info("Video codec is not h264, reconverting...")
                             convertVideo = True
+                        else:
+                            if not stream['pix_fmt'] == 'yuv420p':
+                                logging.info('Pixel format is not yuv420p, reconverting...')
+                                convertVideo = True
 
                         try:
                             frameRate = numexpr.evaluate(stream['avg_frame_rate'])
@@ -122,6 +126,8 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                             convertCmd.append(str(args.quality))
                             convertCmd.append("-level:v")
                             convertCmd.append("4.1")
+                            convertCmd.append("-profile:v")
+                            convertCmd.append("high")
                             convertCmd.append("-preset")
                             convertCmd.append(args.preset)
                             convertCmd.append("-bf")
@@ -135,7 +141,7 @@ for root, dirnames, filenames in os.walk(str(args.folder)):
                             convertCmd.append("-r")
                             convertCmd.append(str(args.rate))
                             convertCmd.append("-pix_fmt")
-                            convertCmd.append("yuvj444p")
+                            convertCmd.append("yuv420p")
 
                             convertCmd += videoConvertCmd
                             reconvert = True
